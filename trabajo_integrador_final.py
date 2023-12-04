@@ -1,7 +1,5 @@
 def main():
-    """
-    Interfaz principal del programa.
-    """
+    #Interfaz principal del programa.
     try:
         print("Bienvenido al portal de veterinaria 'Tu mascota feliz'")
         print()
@@ -34,6 +32,7 @@ def main():
 
 
 def agregar_registro():
+    #agrega un paciente a la lista de pacientes
     try:
         nombre = input("Nombre: ")
         while True:
@@ -56,7 +55,8 @@ def agregar_registro():
         archivo = open("registrados.txt", "a")
         archivo.write(f"{nombre}|{sexo}|{edad}|{especie}|{rasgos}|{enfermedad}|{nombre_dueño}|{numero_contacto}\n")
 
-    except ValueError as err:
+    except ValueError as err: 
+       #cuando hay un error de valor, tiene que mostrar lo siguiente
        print("Escriba un número.", err)
        agregar_registro()
 
@@ -89,13 +89,16 @@ def modificar_registro():
     ID -= 1
     pacientes[INDEX][ID] = input("Ingrese nuevo valor: ")
     print(f"Su nuevo valor es {pacientes[INDEX][ID]}.")
+    archivo = open("registrados.txt" , "w")
+    for paciente in pacientes:
+        archivo.write(f"{paciente[0]}|{paciente[1]}|{paciente[2]}|{paciente[3]}|{paciente[4]}|{paciente[5]}|{paciente[6]}|{paciente[7]}\n")
 
 def eliminar_registro():
     for i in range(len(pacientes)):
         print(f"{i + 1}. {pacientes[i][0].capitalize()}")
     ID = int(input("Elije el ID del paciente: "))
     archivo = open("eliminados.txt", "a")
-    archivo.write(f"{pacientes[ID - 1][0]}|{pacientes[ID - 1][1]}|{pacientes[ID - 1][2]}|{pacientes[ID - 1][3]}|{pacientes[ID - 1][4]}|{pacientes[ID - 1][5]}|{pacientes[ID - 1][6]}|{pacientes[ID - 1][7]}")
+    archivo.write(f"{pacientes[ID - 1][0]}|{pacientes[ID - 1][1]}|{pacientes[ID - 1][2]}|{pacientes[ID - 1][3]}|{pacientes[ID - 1][4]}|{pacientes[ID - 1][5]}|{pacientes[ID - 1][6]}|{pacientes[ID - 1][7]}\n")
     pacientes.pop(ID - 1)
     archivo = open("registrados.txt", "w")
     for paciente in pacientes:
@@ -144,9 +147,9 @@ def cargar_pacientes_registrados():
         registrados = archivo.readlines()
         if registrados:
             for registrado in registrados:
-                pacientes.append(registrado.strip().split("|"))
-    except FileNotFoundError:
-        archivo = open('registrados.txt', 'x')
+                pacientes.append(registrado.strip().split("|"))#agrega los datos de los pacientes a la lista usando '|' como caracter separador
+    except FileNotFoundError:                       
+        archivo = open('registrados.txt', 'x')                 
         print("Archivo no encontrado, se ha creado uno nuevo.")
 
 if __name__ == "__main__":
