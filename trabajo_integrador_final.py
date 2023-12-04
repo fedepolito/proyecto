@@ -61,6 +61,7 @@ def agregar_registro():
        agregar_registro()
 
 def mostrar_registro():
+    #se utiliza un for para tener una lista de cada paciente
     INDEX = 0
     for paciente in pacientes:
         print("ID           : {0:<15} Nombre    : {1:<15} Sexo      : {2:<15}".format(INDEX + 1, paciente[0], paciente[1]))  
@@ -70,6 +71,7 @@ def mostrar_registro():
         INDEX += 1
 
 def modificar_registro():
+    #for para mostrar lista de pacientes y que valor quiere modificar
     contador = 1
     for paciente in pacientes:
         print(contador, paciente[0])
