@@ -94,46 +94,65 @@ def eliminar_registro():
     for i in range(len(pacientes)):
         print(f"{i + 1}. {pacientes[i][0].capitalize()}")
     ID = int(input("Elije el ID del paciente: "))
-    # archivo = open("eliminados.txt", "a")
-    # archivo.write()
+    archivo = open("eliminados.txt", "a")
+    archivo.write(f"{pacientes[ID - 1][0]}|{pacientes[ID - 1][1]}|{pacientes[ID - 1][2]}|{pacientes[ID - 1][3]}|{pacientes[ID - 1][4]}|{pacientes[ID - 1][5]}|{pacientes[ID - 1][6]}|{pacientes[ID - 1][7]}")
     pacientes.pop(ID - 1)
+    archivo = open("registrados.txt", "w")
+    for paciente in pacientes:
+        archivo.write(f"{paciente[0]}|{paciente[1]}|{paciente[2]}|{paciente[3]}|{paciente[4]}|{paciente[5]}|{paciente[6]}|{paciente[7]}\n")
     print("¡Paciente eliminado!")
 
 def pacientes_registrados():
-    try: 
+    try:
+        total_registrados = 0
         archivo = open('registrados.txt', 'r')
         registrados = archivo.readlines()
         if registrados:
             print("Pacientes registrados:")
             for registrado in registrados:
-                print(registrado.strip())
+                print(registrado.strip().replace("|", ","))
+                total_registrados += 1
         else:
-            print("La lista de nombres está vacía.")        
+            print("La lista de nombres está vacía.")
+        print("El número total de pacientes registrados es:", total_registrados)
+
     except FileNotFoundError:
         archivo = open('registrados.txt', 'x')
         print("Archivo no encontrado, se ha creado uno nuevo.")
 
 def pacientes_eliminados():
     try: 
+        total_eliminados = 0
         archivo = open('eliminados.txt', 'r')
         eliminados = archivo.readlines()
         if eliminados:
             print("Pacientes eliminados:")
-            for registrado in eliminados:
-                print(registrado.strip())
+            for eliminado in eliminados:
+                print(eliminado.strip().replace("|", ","))
+                total_eliminados += 1
         else:
-            print("La lista de nombres está vacía.")        
+            print("La lista de nombres está vacía.")
+        print("El número total de pacientes eliminados es:", total_eliminados)
+
     except FileNotFoundError:
         archivo = open('eliminados.txt', 'x')
         print("Archivo no encontrado, se ha creado uno nuevo.")
 
-def cargar_pacientes():
-    archivo = open("registrados.txt", "r")
-    
+def cargar_pacientes_registrados():
+    try:
+        archivo = open("registrados.txt", "r")
+        registrados = archivo.readlines()
+        if registrados:
+            for registrado in registrados:
+                pacientes.append(registrado.strip().split("|"))
+    except FileNotFoundError:
+        archivo = open('registrados.txt', 'x')
+        print("Archivo no encontrado, se ha creado uno nuevo.")
 
 if __name__ == "__main__":
-    pacientes = [["Felini", "Femenino", "8 meses", "Felino", "Negro con manchas blancas", "Gripe", "Erika", "11 2379-0359"], ["Julian", "Masculino", "4 meses", "Canino", "Blanco con manchas negras", "Resfriado", "Federico", "11 4022-0863"]]
-    registrados = 0
-    eliminados = 0
+    pacientes = []
+    cargar_pacientes_registrados()
     main()
+
     pacientes_registrados()
+    pacientes_eliminados()
